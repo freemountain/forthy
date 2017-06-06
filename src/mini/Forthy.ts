@@ -25,7 +25,6 @@ class Forthy implements IContext {
         let t: string = this.words.shift();
         let f: IWord;
         while (t !== end) {
-            console.log("parse", t);
             if (this.dictionary[t])
                 f = this.dictionary[t];
             else {
@@ -33,7 +32,7 @@ class Forthy implements IContext {
                 if (isNaN(n)) throw new Error("unknown " + t);
                 f = (f: IContext) => f.stack.push(n)
             }
-            
+
             if (f.parsing)
                 f(this);
             else
@@ -75,32 +74,29 @@ class Forthy implements IContext {
 
     public exec(ary) {
         this.returnStack.push(0);
-        console.log("exec", this.returnStack);
         while (this.returnStack.top() < ary.length) {
             ary[this.returnStack.top()](this);
             this.returnStack.change(ip => ip + 1);
         }
         this.returnStack.pop();
     }
-    
+
     public run(source) {
-        console.log("run", p);
         this.words = source.match(/"[^"]*"|\S+/g);
         this.exec(this.parse());
     }
 }
 
 const f = new Forthy();
-console.log("ff", f.dictionary);
 const sp = ": sq ( x -- 2x ) dup * ; 3 4 * . 5 sq .";
 const jmp = "0 5 ?jump 100 . 200 ."
-const iff = "1 2 > if 100 . then 200 ."
+const iff = "100 2 > if 100 . then 200 ."
 const p = `
-: minTen ( n -- (n>10) )dup 10 swap >
+: minTen ( n -- (n>10) ) dup 10 swap >
     if
         pop 10
     then ;
-90 minTen .
+100 minTen .
 `;
 f.run(p);
 

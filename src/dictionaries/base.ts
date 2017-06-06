@@ -40,7 +40,6 @@ export default (): IDictionary => ({
         const { instructionPointer } = ctx.returnStack.pop();
         const word = ctx.program[instructionPointer];
 
-        console.log("defining", word);
         ctx.dictionary[word] = [];
         ctx.currentWord = word;
         ctx.compiling = true;
@@ -49,11 +48,9 @@ export default (): IDictionary => ({
     "jmp": [(ctx: IContext) => {
         const to = ctx.popStack();
         const { word, instructionPointer } = ctx.returnStack.pop();
-        
+
         ctx.currentWord = word;
         ctx.instructionPointer = to;
-        console.log("jmp", ctx.currentWord, ctx.instructionPointer);
-        console.log("jumo to", to, ctx.currentWord, (ctx.currentWord !== null ? ctx.dictionary[ctx.currentWord] : ctx.program)[to]);
         ctx.instructionPointer = to;
     }],
 });

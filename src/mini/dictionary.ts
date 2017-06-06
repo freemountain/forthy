@@ -24,12 +24,7 @@ const dictionary: IDictionary = {
     '*': (f) => f.stack.push(f.stack.pop() * f.stack.pop()),
     '.': (f) => console.log(f.stack.pop()),
     '(': parsing((f: IContext) => {
-                console.log("sddsssss");
-
-        while (f.words.shift() !== ')') {
-            console.log("sdsdsd", f.words);
-        };
-        console.log("sdds");
+        while (f.words.shift() !== ')'){}
     }),
     ':': parsing((f: IContext) => {
         const name = f.words.shift();
