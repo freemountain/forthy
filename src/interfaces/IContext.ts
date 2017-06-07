@@ -1,19 +1,17 @@
+import Stack from "../Stack";
+import IWord from "./IWord";
+import IMark from "./IMark";
+import IDictionary from "./IDictionary";
+
 interface IContext {
-    program: string[];
-    stack: number[];
-    returnStack: Array<{ word?: string, instructionPointer: number;}>
+    tokens: string[];
+    stack: Stack<number>;
+    returnStack: Stack<number>;
+    dictionary: IDictionary;
+    parseStack: Stack<Array<IWord | IMark>>
 
-    instructionPointer: number;
-    currentWord: null|string;
-
-    halted: boolean;
-    compiling: boolean;
-
-    dictionary: {
-        [name: string]: Array<((ctx: IContext) => void)| string>
-    }
-
-    popStack(): number;
-};
+    parse(end?: string): IWord[];
+    exec(ary);
+}
 
 export default IContext;

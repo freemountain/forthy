@@ -1,7 +1,5 @@
-import IContext from "./IContext";
+import IWord from "./IWord";
 
-interface IDictionary {
-    [name: string]: Array<((ctx: IContext) => void)| string>
-};
+interface IDictionary { [key: string]: IWord }
 
 export default IDictionary;

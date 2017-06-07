@@ -24,28 +24,27 @@ const dictionary: IDictionary = {
     '*': (f) => f.stack.push(f.stack.pop() * f.stack.pop()),
     '.': (f) => console.log(f.stack.pop()),
     '(': parsing((f: IContext) => {
-        while (f.words.shift() !== ')'){}
+        while (f.tokens.shift() !== ')'){}
     }),
     ':': parsing((f: IContext) => {
-        const name = f.words.shift();
+        const name = f.tokens.shift();
         const quot = f.parse(";");
         f.dictionary[name] = (f: IContext) => f.exec(quot);
     }),
     "if": parsing((f: IContext) => {
-        f.returnStack.push(-1);
-        const n = f.returnStack.length;
+        f.returnStack.push(f.tokens.length);
+        const label = `if-${f.returnStack.length}-${f.tokens.length}`;
 
         f.parseStack.top().push({
-            label: `${n}IF`,
+            label,
             code: ["not", NaN, "?jump"]
         })
     }),
 
     "then": parsing((f: IContext) => {
-        const n = f.returnStack.length;
-        f.returnStack.pop();
-
-        f.parseStack.top().push({ label: `${n}IF` })
+        const label = `if-${f.returnStack.length}-${f.returnStack.pop()}`;
+        console.log(label);
+        f.parseStack.top().push({ label })
     }),
     "<": word("a b -- (b<a)", (f: IContext) => {
         const b = f.stack.pop();
